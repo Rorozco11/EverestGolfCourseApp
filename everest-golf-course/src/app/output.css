@@ -604,10 +604,6 @@ video {
   inset: 0px;
 }
 
-.bottom-0 {
-  bottom: 0px;
-}
-
 .left-0 {
   left: 0px;
 }
@@ -626,6 +622,10 @@ video {
 
 .-z-10 {
   z-index: -10;
+}
+
+.z-10 {
+  z-index: 10;
 }
 
 .mx-auto {
@@ -665,8 +665,8 @@ video {
   height: 16rem;
 }
 
-.h-\[7\.5rem\] {
-  height: 7.5rem;
+.h-\[7rem\] {
+  height: 7rem;
 }
 
 .h-\[80vh\] {
@@ -742,10 +742,6 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
-}
-
-.bg-white\/80 {
-  background-color: rgb(255 255 255 / 0.8);
 }
 
 .object-contain {
@@ -847,6 +843,7 @@ video {
   --background: #ffffff;
   --foreground: #171717;
   --font-sans: var(--font-inter);
+  --navbar-height: 7.5rem;
 }
 
 @theme inline {

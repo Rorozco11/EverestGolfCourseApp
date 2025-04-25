@@ -3,18 +3,9 @@ import Image from 'next/image';
 export default function Home() {
   return (
     <main>
-      <div className="relative w-screen h-[80vh] -z-10">
-        <Image
-          src="/Images/BetterRes.jpg"
-          alt="Home background"
-          fill
-          className="object-cover"
-          sizes="100vw"
-        />
-      </div>
 
       {/* #region Navbar */}
-      <div className="fixed top-0 left-0 right-0 bg-white/80 h-[7.5rem]">
+      <div className="fixed top-0 left-0 right-0 bg-white h-[7rem] z-10">
         <div className="container mx-auto px-4 h-full">
           <div className="absolute left-0 top-2">
             <div className="relative md:h-24 md:w-24">
@@ -38,6 +29,16 @@ export default function Home() {
       </div>
       {/* #endregion */}
 
+      <div className="relative w-screen h-[80vh] -z-10">
+        <Image
+          src="/Images/BetterRes.jpg"
+          alt="Home background"
+          fill
+          className="object-cover"
+          sizes="100vw"
+        />
+      </div>
+
       {/* #region Hero Section */}
       <div className="absolute inset-0 flex flex-col items-center justify-center -mt-[80px]">
         <div className="relative h-64 w-64">
@@ -55,7 +56,7 @@ export default function Home() {
       {/* #endregion */}
 
       {/* #region Footer Section */}
-      <div className="fixed bottom-0 w-full bg-white">
+      <div className="w-full bg-white">
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-3 items-center">
             {/* Left Column - Location & Hours */}
