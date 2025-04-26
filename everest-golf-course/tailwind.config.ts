@@ -8,8 +8,12 @@ const config: Config = {
     './public/**/*.html'
   ],
   theme: {
-    extend: {},
+    extend: {
+      spacing: {
+        navbar: '7rem',
+      },
+    },
   },
   plugins: [],
 }
-export default config 
+export default config

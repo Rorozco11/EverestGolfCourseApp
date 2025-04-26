@@ -4,8 +4,9 @@ import FooterSection from "./components/Footer"
 
 export default function Home() {
   return (
+    <>
+    <Navbar />
     <main>
-      <Navbar />
 
       <div className="relative w-screen h-[80vh] -z-10">
         <Image
@@ -31,7 +32,8 @@ export default function Home() {
         </button>
       </div>
 
-      <FooterSection />
     </main>
+    <FooterSection /> 
+    </> 
   );
 }
