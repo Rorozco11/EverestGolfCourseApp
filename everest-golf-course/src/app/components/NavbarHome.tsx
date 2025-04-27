@@ -40,7 +40,7 @@ export default function Navbar() {
             <Link legacyBehavior key={label} href={href}>
               <a
                 className={`text-black text-sm font-medium hover:text-green-700 transition-colors ${
-                  pathname === href ? "font-bold underline" : ""
+                  pathname === href ? "font-extrabold underline" : "" 
                 }`}
               >
                 {label}
@@ -51,10 +51,12 @@ export default function Navbar() {
 
         <div className="ml-auto">
           {showTeeTimeButton && (
-            <button className="bg-green-700 text-white px-4 py-2 rounded-xl hover:bg-green-800 transition-colors font-semibold text-base">
-              BOOK A TEE TIME
-            </button>
-          )}
+            <Link href="/booking">
+              <button className="bg-green-700 text-white px-4 py-2 rounded-xl hover:bg-green-800 transition-colors font-semibold text-base">
+                BOOK A TEE TIME
+              </button>
+            </Link>
+          )}  
         </div>
       </div>
     </nav>

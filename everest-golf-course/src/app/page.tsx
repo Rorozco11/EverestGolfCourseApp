@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Navbar from "./components/NavbarHome"
 import FooterSection from "./components/Footer"
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -27,9 +28,11 @@ export default function Home() {
             className="object-contain"
           />
         </div>
+        <Link href="/booking">
         <button className="mt-12 bg-green-700 text-white px-8 py-3 rounded-xl hover:bg-green-800 transition-colors font-semibold text-base">
           BOOK A TEE TIME
         </button>
+        </Link>
       </div>
 
     </main>
