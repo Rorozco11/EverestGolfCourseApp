@@ -1,17 +1,32 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Navbar from "../components/NavbarHome"
 import FooterSection from "../components/Footer"
 
 export default function Booking() {
+  // ================== State ==================
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState<'morning' | 'afternoon' | 'anytime'>('morning');
   const [players, setPlayers] = useState<number | 'any'>(4);
   const [holes, setHoles] = useState<'9' | '18' | 'any'>('any');
   const [teeType, setTeeType] = useState<'public' | 'membership'>('public');
   const [showDropdown, setShowDropdown] = useState(false);
+  const [teeTimes, setTeeTimes] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    async function fetchTeeTimes() {
+      setLoading(true);
+      const res = await fetch('/api/teetimes');
+      const data = await res.json();
+      setTeeTimes(data);
+      setLoading(false);
+    }
+    fetchTeeTimes();
+  }, []);
+
+  // ================== Helpers ==================
   // Helper to get days in month
   const getMonthDays = (date: Date) => {
     const year = date.getFullYear();
@@ -35,6 +50,41 @@ export default function Booking() {
 
   const days = getMonthDays(selectedDate);
 
+  function formatTime(timeStr: string | undefined) {
+    if (!timeStr) return '';
+    const [hour, minute] = timeStr.split(':');
+    const h = parseInt(hour, 10);
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const hour12 = h % 12 === 0 ? 12 : h % 12;
+    return `${hour12}:${minute} ${ampm}`;
+  }
+
+  function isMorning(timeStr: string) {
+    const hour = parseInt(timeStr.split(':')[0], 10);
+    return hour < 12;
+  }
+
+  function isAfternoon(timeStr: string) {
+    const hour = parseInt(timeStr.split(':')[0], 10);
+    return hour >= 12;
+  }
+
+  // ================== Filtering ==================
+  const filteredTeeTimes = teeTimes.filter((tee) => {
+    // Time filter
+    if (selectedTime === 'morning' && !isMorning(tee.times)) return false;
+    if (selectedTime === 'afternoon' && !isAfternoon(tee.times)) return false;
+    // Holes filter
+    if (holes !== 'any' && String(tee.holes) !== String(holes)) return false;
+    // Players filter
+    if (players !== 'any' && String(tee.players) !== String(players)) return false;
+    // Member/Public filter
+    if (teeType === 'membership' && tee.MEMBER == 0) return false;
+    if (teeType === 'public' && tee.MEMBER == 1) return false;
+    return true;
+  });
+
+  // ================== Render ==================
   return (
     <>
       <Navbar />
@@ -223,22 +273,32 @@ export default function Booking() {
             </div>
 
             {/* Tee Time Slots */}
-            {[
-              { time: '8:00 AM', holes: '9 or 18 Holes', players: 4 },
-              { time: '8:15 AM', holes: '9 or 18 Holes', players: 4 },
-              { time: '9:08 AM', holes: '9 or 18 Holes', players: 4 },
-              { time: '11:30 AM', holes: '18 Holes', players: 1 },
-              { time: '4:45 PM', holes: '9 Holes', players: 2 },
-            ].map((slot, index) => (
-              <div
-                key={index}
-                className="p-4 border rounded-lg flex justify-between items-center hover:border-green-500 cursor-pointer"
-              >
-                <span className="w-32 text-right">{slot.holes}</span>
-                <span className="text-xl font-semibold w-28 text-center">{slot.time}</span>
-                <span className="w-20 text-left">{slot.players} Players</span>
-              </div>
-            ))}
+            {loading ? (
+              <div>Loading tee times...</div>
+            ) : (
+              filteredTeeTimes.map((tee) => (
+                <div
+                  key={tee.id}
+                  className="border p-4 rounded mb-2 flex items-center justify-between"
+                >
+                  {/* Left: Players and Holes */}
+                  <div className="flex-1 text-left">
+                    <div>{tee.holes} Holes</div>
+                    <div>Players: {tee.players}</div>
+                  </div>
+                  {/* Center: Tee Time */}
+                  <div className="flex-1 text-center font-bold text-lg">
+                    {formatTime(tee.times)}
+                  </div>
+                  {/* Right: Book Button */}
+                  <div className="flex-1 flex justify-end">
+                    <button className="bg-green-600 text-white px-4 py-2 rounded">
+                      Book
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </main>
