@@ -12,13 +12,13 @@ export default function Contact() {
 
   return (
     <>
-      <Navbar />
+    <Navbar />
       <main className="pt-[var(--navbar-height)]">
         <div className="relative min-h-screen w-full">
-          <Image
-            src="/Images/BetterRes.jpg"
-            alt="Home background"
-            fill
+        <Image
+          src="/Images/BetterRes.jpg"
+          alt="Home background"
+          fill
             className="object-cover fixed -z-10"
           />
           
@@ -69,8 +69,8 @@ export default function Contact() {
                       </label>
                       <textarea
                         className="w-full p-2 border border-gray-300 rounded h-32"
-                      />
-                    </div>
+        />
+      </div>
 
                     <button
                       type="submit"
@@ -118,8 +118,8 @@ export default function Contact() {
             </div>
           </div>
         </div>
-      </main>
-      <FooterSection />
+    </main>
+    <FooterSection />
     </>
   );
 }

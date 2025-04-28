@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Navbar from "../components/NavbarHome"
 import FooterSection from "../components/Footer"
+import LoginModal from '../components/LoginModal';
 
 export default function Booking() {
   // ================== State ==================
@@ -14,6 +15,7 @@ export default function Booking() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [teeTimes, setTeeTimes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   useEffect(() => {
     async function fetchTeeTimes() {
@@ -277,7 +279,7 @@ export default function Booking() {
               <div>Loading tee times...</div>
             ) : (
               filteredTeeTimes.map((tee) => (
-                <div
+              <div
                   key={tee.id}
                   className="border p-4 rounded mb-2 flex items-center justify-between"
                 >
@@ -292,17 +294,25 @@ export default function Booking() {
                   </div>
                   {/* Right: Book Button */}
                   <div className="flex-1 flex justify-end">
-                    <button className="bg-green-600 text-white px-4 py-2 rounded">
+                    <button 
+                      className="bg-green-600 text-white px-4 py-2 rounded"
+                      onClick={() => setIsLoginModalOpen(true)}
+                    >
                       Book
                     </button>
                   </div>
-                </div>
+              </div>
               ))
             )}
           </div>
         </div>
       </main>
       <FooterSection />
+      
+      <LoginModal 
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+      />
     </>
   )
 }
