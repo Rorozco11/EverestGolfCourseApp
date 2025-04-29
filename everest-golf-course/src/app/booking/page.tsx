@@ -8,8 +8,8 @@ import LoginModal from '../components/LoginModal';
 export default function Booking() {
   // ================== State ==================
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedTime, setSelectedTime] = useState<'morning' | 'afternoon' | 'anytime'>('morning');
-  const [players, setPlayers] = useState<number | 'any'>(4);
+  const [selectedTime, setSelectedTime] = useState<'morning' | 'afternoon' | 'anytime'>('anytime');
+  const [players, setPlayers] = useState<number | 'any'>('any');
   const [holes, setHoles] = useState<'9' | '18' | 'any'>('any');
   const [teeType, setTeeType] = useState<'public' | 'membership'>('public');
   const [showDropdown, setShowDropdown] = useState(false);
