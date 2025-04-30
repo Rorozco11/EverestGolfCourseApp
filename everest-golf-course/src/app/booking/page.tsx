@@ -4,6 +4,15 @@ import Image from 'next/image';
 import Navbar from "../components/NavbarHome"
 import FooterSection from "../components/Footer"
 import LoginModal from '../components/LoginModal';
+import { useRouter } from 'next/navigation';
+import { isLoggedIn } from '../utils/auth';
+
+interface TeeTime {
+  time: string;
+  holes: string;
+  players: number;
+  price: number;
+}
 
 export default function Booking() {
   // ================== State ==================
@@ -16,6 +25,13 @@ export default function Booking() {
   const [teeTimes, setTeeTimes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [selectedTeeTime, setSelectedTeeTime] = useState<{
+    time: string;
+    holes: string;
+    players: number;
+    price: number;
+  } | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchTeeTimes() {
@@ -85,6 +101,18 @@ export default function Booking() {
     if (teeType === 'public' && tee.MEMBER == 1) return false;
     return true;
   });
+
+  const handleBookClick = (teeTime: TeeTime) => {
+    setSelectedTeeTime(teeTime);
+    if (isLoggedIn()) {
+      // If user is already logged in, store tee time details and redirect to payment
+      sessionStorage.setItem('teeTimeDetails', JSON.stringify(teeTime));
+      router.push('/payment');
+    } else {
+      // If user is not logged in, show login modal
+      setIsLoginModalOpen(true);
+    }
+  };
 
   // ================== Render ==================
   return (
@@ -296,7 +324,7 @@ export default function Booking() {
                   <div className="flex-1 flex justify-end">
                     <button 
                       className="bg-green-600 text-white px-4 py-2 rounded"
-                      onClick={() => setIsLoginModalOpen(true)}
+                      onClick={() => handleBookClick(tee)}
                     >
                       Book
                     </button>
@@ -312,6 +340,7 @@ export default function Booking() {
       <LoginModal 
         isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
+        selectedTeeTime={selectedTeeTime || undefined}
       />
     </>
   )

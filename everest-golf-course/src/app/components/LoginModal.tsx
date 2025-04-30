@@ -1,19 +1,39 @@
 // src/app/components/LoginModal.tsx
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SignupModal from './SignupModal';
+import Swal from 'sweetalert2';
+import { useRouter } from 'next/navigation';
+import { isLoggedIn } from '../utils/auth';
 
 interface LoginModalProps {
   isOpen: boolean;
   onClose: () => void;
+  selectedTeeTime?: {
+    times: string;
+    holes: string;
+    players: number;
+    price: number;
+  };
 }
 
-export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
+export default function LoginModal({ isOpen, onClose, selectedTeeTime }: LoginModalProps) {
+  const router = useRouter();
   const [email_address, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showSignup, setShowSignup] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    // Check if user is already logged in
+    if (isLoggedIn() && selectedTeeTime) {
+      // Store tee time details and redirect to payment
+      sessionStorage.setItem('teeTimeDetails', JSON.stringify(selectedTeeTime));
+      router.push('/payment');
+      onClose();
+    }
+  }, [isOpen, selectedTeeTime, router, onClose]);
 
   if (!isOpen) return null;
 
@@ -37,14 +57,43 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
       const data = await response.json();
 
       if (!response.ok) {
+        await Swal.fire({
+          title: 'Login Failed',
+          text: data.error || 'Invalid email or password',
+          icon: 'error',
+          confirmButtonText: 'Try Again',
+          confirmButtonColor: '#d33',
+          customClass: {
+            popup: 'rounded-lg',
+            title: 'text-2xl font-bold',
+            htmlContainer: 'text-lg',
+          },
+        });
         throw new Error(data.error || 'Failed to login');
       }
 
-      // Login successful
-      console.log('Logged in user:', data);
+      // Show success popup
+      await Swal.fire({
+        title: 'Welcome!',
+        text: `Welcome ${email_address}`,
+        icon: 'success',
+        confirmButtonText: 'Continue',
+        confirmButtonColor: '#3085d6',
+        customClass: {
+          popup: 'rounded-lg',
+          title: 'text-2xl font-bold',
+          htmlContainer: 'text-lg',
+        },
+      });
+
+      // Store tee time details in session storage and redirect to payment page
+      if (selectedTeeTime) {
+        sessionStorage.setItem('teeTimeDetails', JSON.stringify(selectedTeeTime));
+        router.push('/payment');
+      } else {
+        router.push('/booking');
+      }
       onClose();
-      // You might want to store the user data in a global state management solution
-      // and/or redirect the user to a dashboard page
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -54,7 +103,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[90]">
         <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
           <h2 className="text-3xl font-bold text-center mb-8">Login</h2>
           
