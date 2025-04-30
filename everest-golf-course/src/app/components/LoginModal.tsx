@@ -9,11 +9,48 @@ interface LoginModalProps {
 }
 
 export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
-  const [email, setEmail] = useState('');
+  const [email_address, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showSignup, setShowSignup] = useState(false);
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   if (!isOpen) return null;
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email_address,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to login');
+      }
+
+      // Login successful
+      console.log('Logged in user:', data);
+      onClose();
+      // You might want to store the user data in a global state management solution
+      // and/or redirect the user to a dashboard page
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -21,14 +58,20 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
         <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
           <h2 className="text-3xl font-bold text-center mb-8">Login</h2>
           
-          <form className="space-y-6">
+          {error && (
+            <div className="mb-4 p-2 bg-red-100 text-red-600 rounded">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block">
                 <span className="text-red-500">*</span>Email Address
               </label>
               <input
                 type="email"
-                value={email}
+                value={email_address}
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 className="w-full p-2 border border-gray-300 rounded mt-1"
@@ -55,9 +98,12 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             <div className="flex gap-4">
               <button
                 type="submit"
-                className="flex-1 bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition-colors"
+                disabled={isLoading}
+                className={`flex-1 bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition-colors ${
+                  isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
               >
-                Log In
+                {isLoading ? 'Logging in...' : 'Log In'}
               </button>
               <button
                 type="button"

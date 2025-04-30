@@ -1,41 +1,73 @@
 import { NextResponse } from 'next/server';
-import { sql } from '@vercel/postgres';
+import mysql from 'mysql2/promise';
 import bcrypt from 'bcryptjs';
 
 export async function POST(request: Request) {
   try {
-    const { full_name, email_address, password } = await request.json();
+    // Create MySQL connection
+    const connection = await mysql.createConnection({
+      host: '127.0.0.1',
+      port: 3306,
+      user: 'root',
+      password: 'Ryan',
+      database: 'EverestGolf_DB',
+    });
+    
+    const { full_name, phone_number, email_address, password, member } = await request.json();
 
     // Basic validation
-    if (!full_name || !email_address || !password) {
+    if (!email_address || !password || !full_name ) {
       return NextResponse.json(
         { message: 'Missing required fields' },
         { status: 400 }
       );
     }
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Hash the password with minimum salt rounds (4) for fastest processing
+    const hashedPassword = await bcrypt.hash(password || '', 4); // Handle even if password is empty
 
-    // Insert the user into the database
-    await sql`
-      INSERT INTO EverestGolfCourse_DB.Users (full_name, email_address, password)
-      VALUES (${full_name}, ${email_address}, ${hashedPassword})
+    // Insert the user into the database with all fields
+    const query = `
+      INSERT INTO Users (
+        full_name, 
+        phone_number, 
+        email_address, 
+        password,
+        member
+      ) VALUES (?, ?, ?, ?, ?)
     `;
 
-    return NextResponse.json(
-      { message: 'User created successfully' },
-      { status: 201 }
-    );
-  } catch (error: any) {
-    // Check for duplicate email
-    if (error.code === '23505') { // PostgreSQL unique constraint violation
+    try {
+      await connection.execute(query, [
+        full_name, 
+        phone_number || null, 
+        email_address, 
+        hashedPassword, 
+        member || null
+      ]);
+
+      await connection.end(); // Close the connection
+
       return NextResponse.json(
-        { message: 'Email already exists' },
-        { status: 400 }
+        { 
+          message: 'User created successfully',
+          success: true,
+          popupMessage: 'You have successfully signed up. Please log in.'
+        },
+        { status: 201 }
       );
+    } catch (dbError: any) {
+      // Check for duplicate email
+      if (dbError.code === 'ER_DUP_ENTRY') {
+        return NextResponse.json(
+          { message: 'Email already exists' },
+          { status: 400 }
+        );
+      }
+      throw dbError; // Re-throw if it's not a duplicate error
     }
 
+  } catch (error: any) {
     console.error('Signup error:', error);
     return NextResponse.json(
       { message: 'Internal server error' },

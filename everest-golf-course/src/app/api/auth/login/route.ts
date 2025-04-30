@@ -18,10 +18,10 @@ export async function POST(request: Request) {
   try {
     const { email_address, password } = await request.json();
 
-    // Input validation
-    if (!email_address || !password) {
+    // Only validate email since it's required
+    if (!email_address) {
       return NextResponse.json(
-        { error: 'Email and password are required' },
+        { error: 'Email address is required' },
         { status: 400 }
       );
     }
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
     );
     await connection.end();
 
-    const user = Array.isArray(users) ? users[0] : null;
+    const user = users[0];
 
     if (!user) {
       return NextResponse.json(
@@ -51,8 +51,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // Verify password
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    // Verify password using bcrypt, handle empty passwords
+    const passwordMatch = await bcrypt.compare(password || '', user.password);
 
     if (!passwordMatch) {
       return NextResponse.json(

@@ -17,3 +17,13 @@ export async function GET() {
 
   return NextResponse.json(rows);
 }
+
+const query = `
+  INSERT INTO Users (
+    full_name, 
+    phone_number, 
+    email_address, 
+    password,
+    member
+  ) VALUES (?, ?, ?, ?, ?)
+`;
