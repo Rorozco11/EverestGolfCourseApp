@@ -10,26 +10,74 @@ interface TeeTimeDetails {
   holes: string;
   players: number;
   price: number;
+  MEMBER?: number;
 }
 
 export default function PaymentPage() {
   const router = useRouter();
   const [teeTimeDetails, setTeeTimeDetails] = useState<TeeTimeDetails | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [cardNumber, setCardNumber] = useState('');
+  const [expiryDate, setExpiryDate] = useState('');
+  const [cvv, setCvv] = useState('');
 
   useEffect(() => {
-    // Get tee time details from session storage
-    const storedDetails = sessionStorage.getItem('teeTimeDetails') 
+    const storedDetails = sessionStorage.getItem('teeTimeDetails');
     if (storedDetails) {
-      setTeeTimeDetails(JSON.parse(storedDetails));
+      const details = JSON.parse(storedDetails);
+      setTeeTimeDetails(details);
       
+      // If it's a member tee time, skip payment and go straight to confirmation
+      if (details.MEMBER === 1) {
+        sessionStorage.setItem('teeTimeDetails', JSON.stringify(details));
+        router.push('/bookingconfirmation');
+      }
     } else {
-      // If no details found, redirect back to booking
       router.push('/booking');
     }
   }, [router]);
 
+  const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, '').slice(0, 16);
+    const formatted = value.replace(/(.{4})/g, '$1 ').trim();
+    setCardNumber(formatted);
+  };
+
+  const handleExpiryDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, '');
+    if (value.length <= 4) {
+      if (value.length >= 2) {
+        const month = value.slice(0, 2);
+        if (parseInt(month) > 12) return;
+        setExpiryDate(`${month}/${value.slice(2)}`);
+      } else {
+        setExpiryDate(value);
+      }
+    }
+  };
+
+  const handleCvvChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, '').slice(0, 4);
+    setCvv(value);
+  };
+
+  const isFormValid = () => {
+    return cardNumber.replace(/\s/g, '').length === 16 &&
+           /^(0[1-9]|1[0-2])\/([0-9]{2})$/.test(expiryDate) &&
+           /^[0-9]{3,4}$/.test(cvv);
+  };
+
   const handlePayment = async () => {
+    if (!isFormValid()) {
+      Swal.fire({
+        title: 'Invalid Input',
+        text: 'Please check your payment details and try again.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#3085d6',
+      });
+      return;
+    }
     setIsProcessing(true);
     try {
       // Simulate payment processing
@@ -116,6 +164,8 @@ export default function PaymentPage() {
                 </label>
                 <input
                   type="text"
+                  value={cardNumber}
+                  onChange={handleCardNumberChange}
                   placeholder="1234 5678 9012 3456"
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                   required
@@ -129,6 +179,8 @@ export default function PaymentPage() {
                   </label>
                   <input
                     type="text"
+                    value={expiryDate}
+                    onChange={handleExpiryDateChange}
                     placeholder="MM/YY"
                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     required
@@ -140,6 +192,8 @@ export default function PaymentPage() {
                   </label>
                   <input
                     type="text"
+                    value={cvv}
+                    onChange={handleCvvChange}
                     placeholder="123"
                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     required
@@ -151,9 +205,9 @@ export default function PaymentPage() {
                 <button
                   type="button"
                   onClick={handlePayment}
-                  disabled={isProcessing}
+                  disabled={isProcessing || !isFormValid()}
                   className={`flex-1 bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-colors ${
-                    isProcessing ? 'opacity-50 cursor-not-allowed' : ''
+                    isProcessing || !isFormValid() ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                 >
                   {isProcessing ? 'Processing...' : 'Pay Now'}

@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { isLoggedIn } from '../utils/auth';
 
 interface TeeTime {
-  time: string;
+  times: string;
   holes: string;
   players: number;
   price: number;
@@ -24,9 +24,10 @@ export default function Booking() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [teeTimes, setTeeTimes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isLoadingTeeTimes, setIsLoadingTeeTimes] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [selectedTeeTime, setSelectedTeeTime] = useState<{
-    time: string;
+    times: string;
     holes: string;
     players: number;
     price: number;
@@ -36,13 +37,29 @@ export default function Booking() {
   useEffect(() => {
     async function fetchTeeTimes() {
       setLoading(true);
-      const res = await fetch('/api/teetimes');
-      const data = await res.json();
-      setTeeTimes(data);
-      setLoading(false);
+      setIsLoadingTeeTimes(true);
+      try {
+        const res = await fetch('/api/teetimes');
+        const data = await res.json();
+        setTeeTimes(data);
+      } catch (error) {
+        console.error('Error fetching tee times:', error);
+      } finally {
+        setLoading(false);
+        setIsLoadingTeeTimes(false);
+      }
     }
     fetchTeeTimes();
   }, []);
+
+  const handleDateChange = (date: Date) => {
+    setSelectedDate(date);
+    setIsLoadingTeeTimes(true);
+    // Simulate loading time for better UX
+    setTimeout(() => {
+      setIsLoadingTeeTimes(false);
+    }, 1000);
+  };
 
   // ================== Helpers ==================
   // Helper to get days in month
@@ -167,9 +184,7 @@ export default function Booking() {
                       className={`text-center py-2 w-full rounded ${
                         day === selectedDate.getDate() ? 'bg-green-500 text-white' : ''
                       }`}
-                      onClick={() =>
-                        setSelectedDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), day))
-                      }
+                      onClick={() => handleDateChange(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), day))}
                     >
                       {day}
                     </button>
@@ -303,8 +318,10 @@ export default function Booking() {
             </div>
 
             {/* Tee Time Slots */}
-            {loading ? (
-              <div>Loading tee times...</div>
+            {isLoadingTeeTimes ? (
+              <div className="flex items-center justify-center h-32">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
+              </div>
             ) : (
               filteredTeeTimes.map((tee) => (
               <div

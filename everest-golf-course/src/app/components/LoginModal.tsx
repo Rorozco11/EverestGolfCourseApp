@@ -14,6 +14,7 @@ interface LoginModalProps {
     holes: string;
     players: number;
     price: number;
+    MEMBER: number;
   };
 }
 
@@ -70,6 +71,24 @@ export default function LoginModal({ isOpen, onClose, selectedTeeTime }: LoginMo
           },
         });
         throw new Error(data.error || 'Failed to login');
+      }
+
+      // Check if user is trying to book a member tee time but isn't a member
+      if (selectedTeeTime && selectedTeeTime.MEMBER === 1 && data.member === 0) {
+        await Swal.fire({
+          title: 'Membership Required',
+          text: 'This tee time is for members only. Please select a public tee time.',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#d33',
+          customClass: {
+            popup: 'rounded-lg',
+            title: 'text-2xl font-bold',
+            htmlContainer: 'text-lg',
+          },
+        });
+        onClose();
+        return;
       }
 
       // Show success popup

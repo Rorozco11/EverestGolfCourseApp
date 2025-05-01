@@ -17,8 +17,6 @@ export default function Rates() {
             <h2 className="text-2xl font-bold mb-2">9 Holes</h2>
             <ul className="text-lg">
               <li>Adults: $23</li>
-              <li>Seniors(Over 62): $17</li>
-              <li>Kids(Under 16): $15</li>
             </ul>
           </div>
           {/* 18 Holes */}
@@ -26,8 +24,6 @@ export default function Rates() {
             <h2 className="text-2xl font-bold mb-2">18 Holes</h2>
             <ul className="text-lg">
               <li>Adults: $36</li>
-              <li>Seniors(Over 62): $26</li>
-              <li>Kids(Under 16): $23</li>
             </ul>
           </div>
         </div>
@@ -39,8 +35,6 @@ export default function Rates() {
             <h2 className="text-2xl font-bold mb-2">9 Holes</h2>
             <ul className="text-lg">
               <li>Adults: $30</li>
-              <li>Seniors(Over 62): $25</li>
-              <li>Kids(Under 16): $20</li>
             </ul>
           </div>
           {/* 18 Holes */}
@@ -48,8 +42,6 @@ export default function Rates() {
             <h2 className="text-2xl font-bold mb-2">18 Holes</h2>
             <ul className="text-lg">
               <li>Adults: $45</li>
-              <li>Seniors(Over 62): $30</li>
-              <li>Kids(Under 16): $28</li>
             </ul>
           </div>
         </div>

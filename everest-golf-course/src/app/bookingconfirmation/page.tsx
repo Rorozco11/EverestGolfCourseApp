@@ -9,6 +9,7 @@ interface TeeTimeDetails {
   holes: string;
   players: number;
   price: number;
+  MEMBER?: number;
 }
 
 export default function BookingConfirmation() {
@@ -60,7 +61,11 @@ export default function BookingConfirmation() {
             
             <div className="flex justify-between py-3 border-b">
               <span className="text-gray-600">Total Amount:</span>
-              <span className="font-medium">${teeTimeDetails.price}</span>
+              {teeTimeDetails.MEMBER === 1 ? (
+                <span className="font-medium">Free</span>
+              ) : (
+                <span className="font-medium">${teeTimeDetails.price}</span>
+              )}
             </div>
           </div>
 
