@@ -7,11 +7,19 @@ interface SignupModalProps {
   onClose: () => void;
 }
 
-export default function SignupModal({ isOpen, onClose }: SignupModalProps) {
+export default function SignupModal({ isOpen, onClose: originalOnClose }: SignupModalProps) {
   const [full_name, setFullName] = useState('');
   const [email_address, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  const onClose = () => {
+    setFullName('');
+    setEmail('');
+    setPassword('');
+    setError('');
+    originalOnClose();
+  };
 
   if (!isOpen) return null;
 
