@@ -12,6 +12,7 @@ interface TeeTime {
   holes: string;
   players: number;
   price: number;
+  MEMBER?: number;
 }
 
 export default function Booking() {

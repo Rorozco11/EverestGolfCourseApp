@@ -5,6 +5,7 @@ import SignupModal from './SignupModal';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
 import { isLoggedIn } from '../utils/auth';
+import ForgotPasswordModal from './ForgotPasswordModal';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -14,7 +15,7 @@ interface LoginModalProps {
     holes: string;
     players: number;
     price: number;
-    MEMBER: number;
+    MEMBER?: number;
   };
 }
 
@@ -25,6 +26,7 @@ export default function LoginModal({ isOpen, onClose, selectedTeeTime }: LoginMo
   const [showSignup, setShowSignup] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
 
   useEffect(() => {
     // Check if user is already logged in
@@ -166,7 +168,10 @@ export default function LoginModal({ isOpen, onClose, selectedTeeTime }: LoginMo
               />
             </div>
 
-            <div className="text-blue-600 hover:underline cursor-pointer">
+            <div 
+              className="text-blue-600 hover:underline cursor-pointer"
+              onClick={() => setShowForgotPassword(true)}
+            >
               <span>Forgot Password</span>
             </div>
 
@@ -206,6 +211,11 @@ export default function LoginModal({ isOpen, onClose, selectedTeeTime }: LoginMo
       <SignupModal 
         isOpen={showSignup} 
         onClose={() => setShowSignup(false)} 
+      />
+
+      <ForgotPasswordModal 
+        isOpen={showForgotPassword}
+        onClose={() => setShowForgotPassword(false)}
       />
     </>
   );

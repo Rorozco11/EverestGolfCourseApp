@@ -12,13 +12,27 @@ interface TeeTimeDetails {
   MEMBER?: number;
 }
 
+interface User {
+  email_address: string;
+}
+
 export default function BookingConfirmation() {
   const router = useRouter();
-  const [teeTimeDetails, setTeeTimeDetails] = useState<TeeTimeDetails | null>(null); 
+  const [teeTimeDetails, setTeeTimeDetails] = useState<TeeTimeDetails | null>(null);
+  const [userEmail, setUserEmail] = useState<string>('');
 
   useEffect(() => {
     // Get booking details from session storage
     const storedDetails = sessionStorage.getItem('teeTimeDetails');
+    const userCookie = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('user='));
+    
+    if (userCookie) {
+      const user: User = JSON.parse(decodeURIComponent(userCookie.split('=')[1]));
+      setUserEmail(user.email_address);
+    }
+
     if (storedDetails) {
       setTeeTimeDetails(JSON.parse(storedDetails));
     } else {
@@ -70,7 +84,9 @@ export default function BookingConfirmation() {
           </div>
 
           <div className="mt-8 text-center">
-            <p className="text-gray-600 mb-4">A confirmation email has been sent to your registered email address.</p>
+            <p className="text-gray-600 mb-4">
+              A confirmation email with your booking details has been sent to your registered email address.
+            </p>
             <button
               onClick={() => router.push('/booking')}
               className="bg-green-600 text-white py-3 px-8 rounded-lg hover:bg-green-700 transition-colors"
