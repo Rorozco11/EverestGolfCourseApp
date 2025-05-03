@@ -134,6 +134,12 @@ export default function Contact() {
       phone_number: '',
       email_address: ''
     });
+
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
   };
 
   return (
