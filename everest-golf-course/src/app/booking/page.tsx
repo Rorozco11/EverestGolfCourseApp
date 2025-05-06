@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Navbar from "../components/NavbarHome"
+import MobileNavbar from "../components/MobileNavbar"
 import FooterSection from "../components/Footer"
 import LoginModal from '../components/LoginModal';
 import { useRouter } from 'next/navigation';
@@ -135,7 +136,12 @@ export default function Booking() {
   // ================== Render ==================
   return (
     <>
-      <Navbar />
+      <div className="hidden md:block">
+        <Navbar />
+      </div>
+      <div className="block md:hidden">
+        <MobileNavbar />
+      </div>  
       <main className="max-w-6xl mx-auto px-4 pt-navbar pb-24">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Left Column - Calendar and Filters */}
@@ -353,7 +359,9 @@ export default function Booking() {
           </div>
         </div>
       </main>
-      <FooterSection />
+      <div className="hidden md:block">
+        <FooterSection />
+      </div>
       
       <LoginModal 
         isOpen={isLoginModalOpen}

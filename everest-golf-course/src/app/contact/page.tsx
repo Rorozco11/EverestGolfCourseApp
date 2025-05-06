@@ -1,6 +1,7 @@
 'use client'
 import Image from 'next/image';
 import Navbar from "../components/NavbarHome"
+import MobileNavbar from "../components/MobileNavbar"
 import FooterSection from "../components/Footer"
 import { FormEvent, useState } from 'react';
 import Swal from 'sweetalert2';
@@ -22,10 +23,10 @@ export default function Contact() {
   const formatPhoneNumber = (value: string) => {
     // Remove all non-numeric characters
     const phone_number = value.replace(/\D/g, '');
-    
+
     // Format as (XXX) XXX-XXXX
     if (phone_number.length >= 10) {
-      return `(${phone_number.slice(0,3)}) ${phone_number.slice(3,6)}-${phone_number.slice(6,10)}`;
+      return `(${phone_number.slice(0, 3)}) ${phone_number.slice(3, 6)}-${phone_number.slice(6, 10)}`;
     }
     return phone_number;
   };
@@ -42,7 +43,7 @@ export default function Contact() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    
+
     if (name === 'phone_number') {
       // Format phone number as user types
       const formattedPhone = formatPhoneNumber(value);
@@ -91,7 +92,7 @@ export default function Contact() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    
+
     // Validate before submitting
     if (!validatePhoneNumber(formData.phone_number)) {
       setErrors(prev => ({
@@ -144,23 +145,27 @@ export default function Contact() {
 
   return (
     <>
-    <Navbar />
-      <main className="pt-[var(--navbar-height)]">
-        <div className="relative min-h-screen w-full">
+      <div className="hidden md:block">
+        <Navbar />
+      </div>
+      <div className="block md:hidden">
+        <MobileNavbar />
+      </div>
+      <main className="relative min-h-screen w-full pt-[var(--navbar-height)]">
           <Image
             src="/Images/BetterRes.jpg"
             alt="Home background"
             fill
             className="object-cover fixed -z-10"
           />
-          
+
           <div className="container mx-auto py-16 px-4">
             <div className="bg-white/90 p-8 rounded-lg shadow-lg backdrop-blur-sm">
               <div className="grid md:grid-cols-2 gap-8">
                 {/* Contact Form */}
                 <div>
                   <h1 className="text-4xl font-bold mb-8">Contact Us</h1>
-                  
+
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                       <label className="block mb-1">
@@ -187,12 +192,11 @@ export default function Contact() {
                         onChange={handleChange}
                         placeholder="(XXX) XXX-XXXX"
                         required
-                        className={`w-full p-2 border rounded ${
-                          errors.phone_number ? 'border-red-500' : 'border-gray-300'
-                        }`}
+                        className={`w-full p-2 border rounded ${errors.phone_number ? 'border-red-500' : 'border-gray-300'
+                          }`}
                       />
                       {errors.phone_number && (
-                        <p className="text-red-500 text-sm mt-1">{errors.phone_number}</p> 
+                        <p className="text-red-500 text-sm mt-1">{errors.phone_number}</p>
                       )}
                     </div>
 
@@ -207,9 +211,8 @@ export default function Contact() {
                         onChange={handleChange}
                         placeholder="example@gmail.com"
                         required
-                        className={`w-full p-2 border rounded ${
-                          errors.email_address ? 'border-red-500' : 'border-gray-300'
-                        }`}
+                        className={`w-full p-2 border rounded ${errors.email_address ? 'border-red-500' : 'border-gray-300'
+                          }`}
                       />
                       {errors.email_address && (
                         <p className="text-red-500 text-sm mt-1">{errors.email_address}</p>
@@ -273,9 +276,10 @@ export default function Contact() {
               </div>
             </div>
           </div>
-        </div>
-    </main>
-    <FooterSection />
+      </main>
+      <div className="hidden md:block">
+        <FooterSection />
+      </div>
     </>
   );
 }

@@ -168,7 +168,7 @@ export default function Memberships() {
       <div className="block md:hidden">
         <MobileNavbar />
       </div>
-      <main className="relative min-h-screen w-full pt-[var(--navbar-height)]">
+      <main className="relative min-h-screen w-full pt-[2rem] md:pt-[var(--navbar-height)]">
           <Image
             src="/Images/memthird.jpg"
             alt="Home background"
