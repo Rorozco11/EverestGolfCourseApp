@@ -1,16 +1,23 @@
 import Image from 'next/image';
 import Navbar from "../components/NavbarHome"
+import MobileNavbar from "../components/MobileNavbar"
 import FooterSection from "../components/Footer"
+import MobileFooter from "../components/MobileFooter"
 
 export default function Rates() {
   return (
     <>
-      <Navbar />
+     <div className="hidden md:block">
+        <Navbar />
+      </div>
+      <div className="block md:hidden">
+        <MobileNavbar />
+      </div>
       <main className="flex flex-col items-center py-12 px-4 pt-navbar">
       
 
           {/* WEEKDAYS */}
-        <h1 className="text-3xl font-bold mb-8">WEEKDAYS</h1>
+        <h1 className="text-3xl font-bold mb-10">WEEKDAYS</h1>
         <div className="flex flex-row justify-center gap-24 mb-12">
           {/* 9 Holes */}
           <div>
@@ -28,7 +35,7 @@ export default function Rates() {
           </div>
         </div>
          {/* WEEKENDS */}
-         <h1 className="text-3xl font-bold mb-8">WEEKENDS</h1>
+         <h1 className="text-3xl font-bold mb-10">WEEKENDS</h1>
         <div className="flex flex-row justify-center gap-24 mb-12">
           {/* 9 Holes */}
           <div>
@@ -46,7 +53,7 @@ export default function Rates() {
           </div>
         </div>
          {/* Golf Cart Fee */}
-         <h1 className="text-3xl font-bold mb-8">Golf Cart Fee</h1>
+         <h1 className="text-3xl font-bold mb-10">Golf Cart Fee</h1>
         <div className="flex flex-row justify-center gap-24 mb-12">
           {/* Riding Cart */}
           <div>
@@ -67,7 +74,7 @@ export default function Rates() {
         </div>
 
         {/* Driving Range */}
-        <h1 className="text-3xl font-bold mb-8">Driving Range</h1>
+        <h1 className="text-3xl font-bold mb-10">Driving Range</h1>
         <div className="flex flex-col items-center">
           <ul className="text-lg">
             <li>Small Bucket(40 Balls): $5</li>
@@ -76,7 +83,12 @@ export default function Rates() {
         </div>
 
       </main>
-      <FooterSection />
+      <div className="hidden md:block"> 
+        <FooterSection />
+      </div>
+      <div className="block md:hidden">
+        <MobileFooter textColor="black" />
+      </div>
     </>
   );
 }   
