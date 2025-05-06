@@ -24,11 +24,19 @@ export default function MobileFooter({ textColor = "white" }: { textColor?: "whi
             {/* Social Icons Row for Mobile */}
             <div className="flex md:hidden fixed bottom-32 left-1/2 -translate-x-1/2 w-full justify-center z-50">
                 <div className="flex flex-row gap-6 bg-black bg-opacity-60 rounded-xl py-2 px-4">
-                    <img src="/Images/instagram.png" alt="Instagram" className="w-6 h-6 filter invert" />
-                    <img src="/Images/facebook.png" alt="Facebook" className="w-6 h-6 filter invert" />
-                    <img src="/Images/phone.png" alt="Phone" className="w-6 h-6 -rotate-90 filter invert" />
-                    <img src="/Images/email.png" alt="Email" className="w-6 h-6 filter invert" />
-                </div>
+                    <a href="#" target="_blank" rel="noopener noreferrer">
+                        <img src="/Images/instagram.png" alt="Instagram" className="w-6 h-6 filter invert" />
+                    </a>
+                    <a href="#" target="_blank" rel="noopener noreferrer">
+                        <img src="/Images/facebook.png" alt="Facebook" className="w-6 h-6 filter invert" />
+                    </a>
+                    <a href="tel:629-299-1555">
+                        <img src="/Images/phone.png" alt="Phone" className="w-6 h-6 -rotate-90 filter invert" />
+                    </a>
+                    <a href="mailto:everestgolfclub@gmail.com">
+                        <img src="/Images/email.png" alt="Email" className="w-6 h-6 filter invert" />
+                    </a>
+                </div>, 
             </div>
 
             <div className="flex md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 w-full justify-center z-50 pointer-events-none">
