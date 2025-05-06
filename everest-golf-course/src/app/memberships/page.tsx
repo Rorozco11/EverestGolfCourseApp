@@ -177,7 +177,7 @@ export default function Memberships() {
           />
 
           {/* Membership Form */}
-          <div className="container md:mx-auto md:py-16">
+          <div className="container  md:mx-auto md:py-16">
             <div className="max-w-[500px] mx-auto bg-white/90 p-8 rounded-lg shadow-lg backdrop-blur-sm mt-32 md:mt-0">
               <h1 className="text-3xl font-bold mb-6 text-center">Membership Info</h1>
 
