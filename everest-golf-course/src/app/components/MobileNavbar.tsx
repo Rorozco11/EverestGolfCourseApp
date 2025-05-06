@@ -7,7 +7,7 @@ export default function MobileNavbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 right-7 w-full z-50 flex justify-end pt-4">
+    <nav className="fixed top-0 right-0 w-full z-50 flex justify-end pr-7">
       <button
         className="text-white bg-black bg-opacity-40 rounded-lg p-3"
         onClick={() => setOpen(!open)}

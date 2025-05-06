@@ -165,11 +165,10 @@ export default function Memberships() {
       <div className="hidden md:block">
         <Navbar />
       </div>
-      <main className="md:pt-[var(--navbar-height)]">
-        <div className="relative h-[90vh] md:h-[100vh] w-full">
-          <div className="block md:hidden absolute top-0 left-0 w-full z-20">
-            <MobileNavbar />
-          </div>
+      <div className="block md:hidden">
+        <MobileNavbar />
+      </div>
+      <main className="relative min-h-screen w-full pt-[var(--navbar-height)]">
           <Image
             src="/Images/memthird.jpg"
             alt="Home background"
@@ -263,7 +262,6 @@ export default function Memberships() {
               </form>
             </div>
           </div>
-        </div>
       </main>
       <div className="hidden md:block">
         <FooterSection />
