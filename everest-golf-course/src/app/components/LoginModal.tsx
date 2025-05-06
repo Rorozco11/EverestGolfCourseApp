@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import SignupModal from './SignupModal';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
-import { isLoggedIn } from '../utils/auth';
 import ForgotPasswordModal from './ForgotPasswordModal';
 
 interface LoginModalProps {
@@ -30,7 +29,7 @@ export default function LoginModal({ isOpen, onClose, selectedTeeTime }: LoginMo
 
   useEffect(() => {
     // Check if user is already logged in
-    if (isLoggedIn() && selectedTeeTime) {
+    if (selectedTeeTime) {
       // Store tee time details and redirect to payment
       sessionStorage.setItem('teeTimeDetails', JSON.stringify(selectedTeeTime));
       router.push('/payment');
