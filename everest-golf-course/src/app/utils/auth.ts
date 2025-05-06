@@ -1,30 +1,30 @@
-'use client';
+// 'use client';
 
-export function isLoggedIn(): boolean {
-  if (typeof window === 'undefined') return false;
+// export function isLoggedIn(): boolean {
+//   if (typeof window === 'undefined') return false;
   
-  // Check if user cookie exists
-  const cookies = document.cookie.split(';');
-  const userCookie = cookies.find(cookie => cookie.trim().startsWith('user='));
+//   // Check if user cookie exists
+//   const cookies = document.cookie.split(';');
+//   const userCookie = cookies.find(cookie => cookie.trim().startsWith('user='));
   
-  return !!userCookie;
-}
+//   return !!userCookie;
+// }
 
-export function getUserData() {
-  if (typeof window === 'undefined') return null;
+// export function getUserData() {
+//   if (typeof window === 'undefined') return null;
   
-  const cookies = document.cookie.split(';');
-  const userCookie = cookies.find(cookie => cookie.trim().startsWith('user='));
+//   const cookies = document.cookie.split(';');
+//   const userCookie = cookies.find(cookie => cookie.trim().startsWith('user='));
   
-  if (userCookie) {
-    try {
-      const userData = JSON.parse(decodeURIComponent(userCookie.split('=')[1]));
-      return userData;
-    } catch (error) {
-      console.error('Error parsing user data:', error);
-      return null;
-    }
-  }
+//   if (userCookie) {
+//     try {
+//       const userData = JSON.parse(decodeURIComponent(userCookie.split('=')[1]));
+//       return userData;
+//     } catch (error) {
+//       console.error('Error parsing user data:', error);
+//       return null;
+//     }
+//   }
   
-  return null;
-} 
+//   return null;
+// } 
