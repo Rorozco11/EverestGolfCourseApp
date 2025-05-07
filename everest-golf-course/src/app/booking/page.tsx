@@ -6,7 +6,6 @@ import MobileNavbar from "../components/MobileNavbar"
 import FooterSection from "../components/Footer"
 import LoginModal from '../components/LoginModal';
 import { useRouter } from 'next/navigation';
-import { isLoggedIn } from '../utils/auth';
 
 interface TeeTime {
   times: string;
@@ -123,14 +122,8 @@ export default function Booking() {
 
   const handleBookClick = (teeTime: TeeTime) => {
     setSelectedTeeTime(teeTime);
-    if (isLoggedIn()) {
-      // If user is already logged in, store tee time details and redirect to payment
-      sessionStorage.setItem('teeTimeDetails', JSON.stringify(teeTime));
-      router.push('/payment');
-    } else {
-      // If user is not logged in, show login modal
-      setIsLoginModalOpen(true);
-    }
+    sessionStorage.setItem('teeTimeDetails', JSON.stringify(teeTime));
+    router.push('/payment');
   };
 
   // ================== Render ==================
