@@ -230,7 +230,7 @@ export default function PaymentPage() {
           </div>
         </div>
       </main>
-      <div className = "Hidden md:block"> 
+     <div className="hidden md:block">
         <FooterSection />
       </div>
     </>
