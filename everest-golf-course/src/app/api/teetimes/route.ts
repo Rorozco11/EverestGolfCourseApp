@@ -12,7 +12,7 @@ export async function GET() {
   });
 
   // Example query: get all tee times
-  const [rows] = await connection.execute('SELECT * FROM teetimes ORDER BY times ASC');
+  const [rows] = await connection.execute('SELECT * FROM TeeTimes ORDER BY times ASC');
   await connection.end();
 
   return NextResponse.json(rows);
