@@ -30,7 +30,7 @@ export default function Home() {
         </div>
 
         <div className="absolute inset-0 flex flex-col items-center justify-center -mt-[80px]">
-          <div className="relative h-64 w-64">
+          <div className="relative h-48 w-48 md:h-64 md:w-64">
             <Image
               src="/Images/light.png"
               alt="Center Logo"
@@ -39,7 +39,7 @@ export default function Home() {
             />
           </div>
           <Link href="/booking">
-            <button className="mt-12 bg-green-700 text-white px-8 py-3 rounded-xl hover:bg-green-800 transition-colors font-semibold text-base">
+            <button className="mt-12 bg-green-700 text-white px-8 py-3 rounded-lg hover:bg-green-800 transition-colors font-semibold text-base">
               BOOK A TEE TIME
             </button>
           </Link>
