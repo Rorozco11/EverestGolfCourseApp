@@ -102,7 +102,7 @@ export default function BookingConfirmation() {
           </div>
         </div>
       </main>
-      <div className = "Hidden md:block"> 
+     <div className="hidden md:block">
         <FooterSection />
       </div>
     </>
