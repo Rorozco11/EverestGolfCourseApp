@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Navbar from '../components/NavbarHome';
 import FooterSection from '../components/Footer';
+import MobileNavbar from '../components/MobileNavbar';
 
 interface TeeTimeDetails {
   times: string;
@@ -47,7 +48,12 @@ export default function BookingConfirmation() {
 
   return (
     <>
-      <Navbar />
+      <div className = "Hidden md:block">     
+        <Navbar />
+      </div>
+      <div className = "block md:hidden">
+        <MobileNavbar />
+      </div>
       <main className="max-w-4xl mx-auto px-4 py-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-green-600 mb-2">Booking Confirmed!</h1>
@@ -96,7 +102,9 @@ export default function BookingConfirmation() {
           </div>
         </div>
       </main>
-      <FooterSection />
+      <div className = "Hidden md:block"> 
+        <FooterSection />
+      </div>
     </>
   );
 }

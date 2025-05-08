@@ -124,7 +124,9 @@ export default function PaymentPage() {
 
   return (
     <>
-      <Navbar />
+      <div className = "Hidden md:block">   
+        <Navbar />
+      </div>
       <main className="max-w-4xl mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-center mb-8">Complete Your Booking</h1>
         
@@ -224,7 +226,9 @@ export default function PaymentPage() {
           </div>
         </div>
       </main>
-      <FooterSection />
+      <div className = "Hidden md:block"> 
+        <FooterSection />
+      </div>
     </>
   );
 }
