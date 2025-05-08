@@ -86,9 +86,6 @@ export default function Rates() {
       <div className="hidden md:block"> 
         <FooterSection />
       </div>
-      <div className="block md:hidden">
-        <MobileFooter textColor="black" />
-      </div>
     </>
   );
 }   

@@ -8,7 +8,7 @@ import MobileFooter from "./components/MobileFooter";
 export default function Home() {
   return (
     <>
-    
+
       {/* Desktop Navbar: visible on md and up */}
       <div className="hidden md:block">
         <Navbar />
@@ -39,20 +39,16 @@ export default function Home() {
             />
           </div>
           <Link href="/booking">
-          <button className="mt-12 bg-green-700 text-white px-8 py-3 rounded-xl hover:bg-green-800 transition-colors font-semibold text-base">
-            BOOK A TEE TIME
-          </button>
+            <button className="mt-12 bg-green-700 text-white px-8 py-3 rounded-xl hover:bg-green-800 transition-colors font-semibold text-base">
+              BOOK A TEE TIME
+            </button>
           </Link>
         </div>
-
       </main>
       <div className="hidden md:block">
-      <FooterSection /> 
+        <FooterSection />
       </div>
-      <div className="block md:hidden">
-        <MobileFooter />
-      </div>
-      
-    </> 
+
+    </>
   );
 }
