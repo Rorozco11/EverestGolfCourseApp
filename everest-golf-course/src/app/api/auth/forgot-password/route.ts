@@ -15,11 +15,11 @@ export async function POST(request: Request) {
 
     // Create database connection
     const connection = await mysql.createConnection({
-      host: '127.0.0.1',
-      port: 3306,
-      user: 'root',
-      password: 'Ryan',
-      database: 'EverestGolf_DB',
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
     });
 
     // Generate reset token
