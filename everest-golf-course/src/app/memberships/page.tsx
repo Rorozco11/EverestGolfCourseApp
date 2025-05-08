@@ -178,7 +178,7 @@ export default function Memberships() {
 
           {/* Membership Form */}
           <div className="container  md:mx-auto md:py-16">
-            <div className="max-w-[500px] w-[90%] h-[80%] mx-auto bg-white/90 p-4 sm:p-8 rounded-lg shadow-lg backdrop-blur-sm mt-32 md:mt-0">
+            <div className="max-w-[500px] w-[90%] h-[80%] mx-auto bg-white/90 p-4 sm:p-8 rounded-lg shadow-lg backdrop-blur-sm mt-16 md:mt-0">
               <h1 className="text-3xl font-bold mb-6 text-center">Membership Info</h1>
 
               <form onSubmit={handleSubmit} className="space-y-4">
