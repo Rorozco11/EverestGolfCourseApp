@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
 import Navbar from '../components/NavbarHome';
 import FooterSection from '../components/Footer';
+import MobileNavbar from "../components/MobileNavbar"
 
 interface TeeTimeDetails {
   times: string;
