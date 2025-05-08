@@ -48,10 +48,10 @@ export default function BookingConfirmation() {
 
   return (
     <>
-      <div className = "Hidden md:block">     
+      <div className="hidden md:block">
         <Navbar />
       </div>
-      <div className = "block md:hidden">
+      <div className="block md:hidden">
         <MobileNavbar />
       </div>
       <main className="max-w-4xl mx-auto px-4 py-8">
