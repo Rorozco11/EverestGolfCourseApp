@@ -54,7 +54,7 @@ export default function BookingConfirmation() {
       <div className="block md:hidden">
         <MobileNavbar />
       </div>
-      <main className="max-w-4xl mx-auto px-4 py-8">
+      <main className="max-w-4xl mx-auto mt-16 px-4 py-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-green-600 mb-2">Booking Confirmed!</h1>
           <p className="text-gray-600">Thank you for booking with Everest Golf Course</p>
