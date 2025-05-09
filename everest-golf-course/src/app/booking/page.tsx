@@ -6,6 +6,7 @@ import MobileNavbar from "../components/MobileNavbar"
 import FooterSection from "../components/Footer"
 import LoginModal from '../components/LoginModal';
 import { useRouter } from 'next/navigation';
+import SignupModal from '../components/SignupModal';
 
 interface TeeTime {
   times: string;
@@ -33,6 +34,7 @@ export default function Booking() {
     players: number;
     price: number;
   } | null>(null);
+  const [showSignup, setShowSignup] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -122,8 +124,7 @@ export default function Booking() {
 
   const handleBookClick = (teeTime: TeeTime) => {
     setSelectedTeeTime(teeTime);
-    sessionStorage.setItem('teeTimeDetails', JSON.stringify(teeTime));
-    router.push('/payment');
+    setIsLoginModalOpen(true);
   };
 
   // ================== Render ==================
@@ -360,6 +361,10 @@ export default function Booking() {
         isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
         selectedTeeTime={selectedTeeTime || undefined}
+      />
+      <SignupModal 
+        isOpen={showSignup} 
+        onClose={() => setShowSignup(false)} 
       />
     </>
   )
