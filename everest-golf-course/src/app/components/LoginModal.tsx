@@ -30,12 +30,10 @@ export default function LoginModal({ isOpen, onClose, selectedTeeTime }: LoginMo
   useEffect(() => {
     // Check if user is already logged in
     if (selectedTeeTime) {
-      // Store tee time details and redirect to payment
+      // Store tee time details in session storage
       sessionStorage.setItem('teeTimeDetails', JSON.stringify(selectedTeeTime));
-      router.push('/payment');
-      onClose();
     }
-  }, [isOpen, selectedTeeTime, router, onClose]);
+  }, [isOpen, selectedTeeTime]);
 
   const handleClose = () => {
     setEmail('');
